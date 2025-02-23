@@ -10,8 +10,8 @@ import {isPlatformServer} from '@angular/common';
 import {TranslateFsLoader} from './translate-fs.loader';
 
 // Function for HTTP loader (for client-side)
-function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 // Dynamic loader selection based on environment

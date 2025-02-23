@@ -11,12 +11,17 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
     <p>
       Language: {{ translate.currentLang }}
     </p>
+    <p>
+      Counter: {{ counter }}
+    </p>
     <button (click)="switchLanguage('en')">English</button>
     <button (click)="switchLanguage('cs')">Čeština</button>
+    <button (click)="counter = counter + 1">add 1</button>
   `
 })
 export class AppComponent {
   public loading: boolean = false;
+  public counter: number = 0;
 
   constructor(
     public translate: TranslateService,
