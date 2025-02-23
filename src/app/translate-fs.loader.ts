@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 export class TranslateFsLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
-    const filePath = join(process.cwd(), 'src/assets/i18n/', `${lang}.json`);
+    const filePath = join(process.cwd(), 'public/assets/i18n/', `${lang}.json`);
     try {
       const fileContent = readFileSync(filePath, 'utf8');
       return of(JSON.parse(fileContent));

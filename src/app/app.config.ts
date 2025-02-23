@@ -1,4 +1,4 @@
-import {ApplicationConfig, importProvidersFrom, PLATFORM_ID, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
@@ -6,8 +6,6 @@ import {provideClientHydration, withEventReplay} from '@angular/platform-browser
 import {TranslateLoader, TranslateModule, TranslateService, TranslateStore} from '@ngx-translate/core';
 import {HttpClient, provideHttpClient} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {isPlatformServer} from '@angular/common';
-import {TranslateFsLoader} from './translate-fs.loader';
 
 // Function for HTTP loader (for client-side)
 function HttpLoaderFactory(httpClient: HttpClient) {
@@ -17,10 +15,10 @@ function HttpLoaderFactory(httpClient: HttpClient) {
 // Dynamic loader selection based on environment
 const translateLoader = {
   provide: TranslateLoader,
-  useFactory: (httpClient: HttpClient, platformId: Object) => {
-    return isPlatformServer(platformId) ? new TranslateFsLoader() : HttpLoaderFactory(httpClient);
+  useFactory: (httpClient: HttpClient) => {
+    return HttpLoaderFactory(httpClient);
   },
-  deps: [HttpClient, PLATFORM_ID]
+  deps: [HttpClient]
 };
 
 export const appConfig: ApplicationConfig = {
@@ -34,11 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter([]),
     importProvidersFrom(
       TranslateModule.forRoot({
-        loader: translateLoader,
-      })
-    ),
-    importProvidersFrom(
-      TranslateModule.forChild({
         loader: translateLoader,
       })
     ),
