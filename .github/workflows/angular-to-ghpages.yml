@@ -64,7 +64,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/browser
+          path: ./dist/kratocz.github.io-angular/browser
 
   # Deployment job
   deploy:
