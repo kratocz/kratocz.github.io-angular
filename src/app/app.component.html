@@ -10,3 +10,10 @@
   <router-outlet></router-outlet>
   <h1 id="page-title">{{ pageTitle }}</h1>
 </main>
+<ul class="menu" :class="isLandingPage ? 'expanded' : ''">
+  <ng-container *ngFor="let route of fullRoutes">
+    <li *ngIf="route.data?.linkTitle">
+      <a [routerLink]="route.path">{{ route.data?.linkTitle }}</a>
+    </li>
+  </ng-container>
+</ul>

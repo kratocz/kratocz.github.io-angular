@@ -1,10 +1,12 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformServer } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { LanguageService } from '../i18n/language.service';
-import {filter, map} from 'rxjs';
-import {LocaleSwitchComponent} from './locale-switch/locale-switch.component';
+import { filter, map } from 'rxjs';
+import { LocaleSwitchComponent } from './locale-switch/locale-switch.component';
+import { routes } from './app.routes';
+import { getFullRoutes } from './route-utils';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,7 @@ import {LocaleSwitchComponent} from './locale-switch/locale-switch.component';
 })
 export class AppComponent implements OnInit {
   pageTitle?: string;
+  fullRoutes: any[];
 
   constructor(
     public translate: TranslateService,
@@ -24,6 +27,10 @@ export class AppComponent implements OnInit {
   ) {
     console.log('Initializing TranslateService');
     translate.setDefaultLang(LanguageService.defaultLang);
+
+    // Get full routes
+    this.fullRoutes = getFullRoutes(routes);
+    console.log('Full routes:', this.fullRoutes);
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),

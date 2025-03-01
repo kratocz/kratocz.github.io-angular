@@ -1,0 +1,12 @@
+<div class="menu-item">
+  <a class="menu-item-link" [routerLink]="routerLink">
+    <div class="menu-item-button">
+      <span>{{ title }}</span>
+    </div>
+    <div class="menu-item-content">
+      <div class="menu-item-content-inner" :style="{ width: expanded ? '100%' : '0%' }">
+        <slot></slot>
+      </div>
+    </div>
+  </a>
+</div>

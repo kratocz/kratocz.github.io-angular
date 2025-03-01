@@ -1,0 +1,36 @@
+.menu-item {
+  width: 100%;
+}
+
+.menu-item-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.menu-item-button {
+  flex-shrink: 0;
+  width: 168px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.menu-item-content {
+  flex-grow: 1;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+.menu-item-content-inner {
+  height: 100%;
+  background-color: #eee;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: width 0.2s ease-in-out;
+  overflow: hidden;
+}
