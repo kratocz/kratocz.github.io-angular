@@ -1,0 +1,3 @@
+<div *ngFor="let langCode of LanguageService.supportedLangs">
+  <a (click)="languageService.switchLanguage(langCode)">{{ langCode }}</a>
+</div>
