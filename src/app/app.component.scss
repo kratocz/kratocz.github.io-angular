@@ -1,0 +1,65 @@
+$header-height: 60px;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #33a;
+  color: #fff;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: $header-height;
+  text-align: center;
+
+  .name {
+    margin: auto;
+    font-size: 32px;
+    font-family: 'Poppins', sans-serif;
+
+    a,
+    a:visited,
+    a:hover,
+    a:focus,
+    a:active {
+      color: #ffa;
+      text-decoration: none;
+    }
+  }
+}
+
+.menu {
+  position: fixed;
+  top: $header-height;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  background-color: #fff;
+  color: #333;
+  z-index: 100;
+  display: block;
+  justify-content: space-around;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-size: 28px;
+}
+
+.menu.expanded {
+  width: 100%;
+}
+
+.main-content {
+  margin-left: 200px;
+  margin-top: $header-height;
+}
+
+#page-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}

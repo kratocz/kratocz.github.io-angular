@@ -1,1 +1,12 @@
-This file is not used, see: app.component.ts
+<div class="header">
+  <div class="name">
+    <a [routerLink]="'/'">Petr Kratochvíl</a>
+  </div>
+  <div class="locale-switch">
+    <locale-switch/>
+  </div>
+</div>
+<main class="main-content">
+  <router-outlet></router-outlet>
+  <h1 id="page-title">{{ pageTitle }}</h1>
+</main>

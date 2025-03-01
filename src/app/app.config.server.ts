@@ -3,6 +3,8 @@ import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
 import {TranslateFsLoader} from './translate-fs.loader';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
 
 // Dynamic loader selection based on environment
 const translateLoader = {
@@ -15,6 +17,7 @@ const translateLoader = {
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
+    provideRouter(routes),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: translateLoader,
