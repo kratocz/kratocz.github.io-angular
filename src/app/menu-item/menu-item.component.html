@@ -1,11 +1,11 @@
 <div class="menu-item">
-  <a class="menu-item-link" [routerLink]="routerLink">
+  <a class="menu-item-link" [routerLink]="['/', translate.currentLang, routerLink]">
     <div class="menu-item-button">
-      <span>{{ title }}</span>
+      <span>{{ title ?? translate.instant('page.' + routerLink + '.linkTitle') }}</span>
     </div>
     <div class="menu-item-content">
       <div class="menu-item-content-inner" :style="{ width: expanded ? '100%' : '0%' }">
-        <slot></slot>
+        <ng-content></ng-content>
       </div>
     </div>
   </a>

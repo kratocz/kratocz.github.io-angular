@@ -16,7 +16,7 @@ export class LanguageService {
   ) {}
 
   get userLanguage(): string {
-    const savedLang = localStorage.getItem(LanguageService.storageKey);
+    const savedLang = localStorage?.getItem(LanguageService.storageKey);
     if (savedLang && LanguageService.supportedLangs.includes(savedLang)) {
       return savedLang; // Jazyk z localStorage
     }
@@ -39,7 +39,9 @@ export class LanguageService {
     console.log('Switching language to:', lang);
     if (LanguageService.supportedLangs.includes(lang)) {
       this.translate.use(lang);
-      localStorage.setItem(LanguageService.storageKey, lang);
+      if (localStorage) {
+        localStorage.setItem(LanguageService.storageKey, lang);
+      }
       const currentUrl = this.router.url.replace(/^\/(cs|en)/, '');
       this.router.navigate([`/${lang}${currentUrl}`]);
     }

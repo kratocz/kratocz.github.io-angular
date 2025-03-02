@@ -8,25 +8,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as yaml from 'js-yaml';
 
-const defaultPageTitle = 'Ing. Petr Kratochvíl';
-
-@Injectable()
-export class TemplatePageTitleStrategy extends TitleStrategy {
-  constructor(private readonly title: Title) {
-    super();
-  }
-
-  override updateTitle(routerState: RouterStateSnapshot) {
-    let pageTitle = this.buildTitle(routerState);
-    let title = defaultPageTitle;
-    if (pageTitle) {
-      pageTitle = pageTitle.replace('!', '');
-      title = `${pageTitle} - ${defaultPageTitle}`;
-    }
-    this.title.setTitle(title);
-  }
-}
-
 // Function for YAML loader (for client-side)
 export class TranslateYamlLoader implements TranslateLoader {
   constructor(
@@ -55,10 +36,6 @@ export const appConfig: ApplicationConfig = {
     TranslateService,
     TranslateStore,
     provideHttpClient(),
-    {
-      provide: TitleStrategy,
-      useClass: TemplatePageTitleStrategy
-    },
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

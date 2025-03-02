@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu-item',
@@ -10,9 +11,10 @@ import {RouterLink} from '@angular/router';
   styleUrl: './menu-item.component.scss'
 })
 export class MenuItemComponent {
+  @Input() title?: string;
+  @Input() routerLink?: string;
+
   constructor(
-    @Input() title: string,
-    @Input() menuLink: string,
-  ) {
-  }
+    public translate: TranslateService,
+  ) { }
 }

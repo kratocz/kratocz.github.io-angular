@@ -1,3 +1,27 @@
 page:
-  Intro:
-    title: Welcome!
+  intro:
+    title: 'Welcome!'
+    linkTitle: 'Intro'
+  ai:
+    title: 'AI'
+    linkTitle: 'AI'
+  contact:
+    title: 'Contact'
+    linkTitle: 'Contact'
+  cv:
+    title: 'Curriculum Vitae (CV)'
+    linkTitle: 'CV'
+  dev-ops:
+    title: 'DevOps'
+    linkTitle: 'DevOps'
+  it-development:
+    title: 'IT Development'
+    linkTitle: 'IT Development'
+  linux:
+    title: 'Linux'
+    linkTitle: 'Linux'
+  public-it-projects:
+    title: 'Public IT Projects'
+    linkTitle: 'Public IT Projects'
+  error404:
+    title: 'Page not found'

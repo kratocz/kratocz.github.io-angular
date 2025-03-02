@@ -1,48 +1,65 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformServer } from '@angular/common';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
-import { LanguageService } from '../i18n/language.service';
-import { filter, map } from 'rxjs';
-import { LocaleSwitchComponent } from './locale-switch/locale-switch.component';
-import { routes } from './app.routes';
-import { getFullRoutes } from './route-utils';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {CommonModule, isPlatformServer} from '@angular/common';
+import {TranslateService, TranslateModule} from '@ngx-translate/core';
+import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet, Routes} from '@angular/router';
+import {LanguageService} from '../i18n/language.service';
+import {filter, map} from 'rxjs';
+import {LocaleSwitchComponent} from './locale-switch/locale-switch.component';
+import {routes} from './app.routes';
+import {Title} from '@angular/platform-browser';
+import {MenuItemComponent} from './menu-item/menu-item.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterLink, LocaleSwitchComponent, RouterOutlet],
+  imports: [CommonModule, TranslateModule, RouterLink, LocaleSwitchComponent, RouterOutlet, MenuItemComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  pageTitle?: string;
-  fullRoutes: any[];
+  public static defaultPageTitle = 'Ing. Petr Kratochvíl';
+  private _pageTitle?: string;
+  currentLang?: string;
+
+  get pageTitle(): string | undefined {
+    return this._pageTitle;
+  }
+
+  set pageTitle(title: string | undefined) {
+    this._pageTitle = title;
+    let pageTitle = AppComponent.defaultPageTitle;
+    if (title) {
+      pageTitle = `${title.replace('!', '')} - ${AppComponent.defaultPageTitle}`;
+    }
+    console.log('Setting page title:', pageTitle);
+    this.titleService.setTitle(pageTitle);
+  }
 
   constructor(
     public translate: TranslateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private languageService: LanguageService,
+    private titleService: Title,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     console.log('Initializing TranslateService');
     translate.setDefaultLang(LanguageService.defaultLang);
 
-    // Get full routes
-    this.fullRoutes = getFullRoutes(routes);
-    console.log('Full routes:', this.fullRoutes);
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      map((): string | undefined => {
+      map(() => {
         let route = this.activatedRoute;
         while (route.firstChild) {
           route = route.firstChild;
         }
-        return route.snapshot.title;
+        return route.snapshot;
       })
-    ).subscribe(title => {
-      this.pageTitle = title;
+    ).subscribe(activatedRoute => {
+      const lang = activatedRoute.params['lang'];
+      languageService.switchLanguage(lang);
+      const pageId = activatedRoute.routeConfig?.path as string;
+      this.pageTitle = pageId ? translate.instant(`page.${pageId}.title`) : undefined;
+      this.currentLang = translate.currentLang ?? LanguageService.defaultLang;
     });
 
     if (isPlatformServer(this.platformId)) {
@@ -62,4 +79,6 @@ export class AppComponent implements OnInit {
       this.router.navigate([`/${userLang}`]);
     }
   }
+
+  protected readonly JSON = JSON;
 }
