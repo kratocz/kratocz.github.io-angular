@@ -5,10 +5,10 @@ import {NgForOf} from '@angular/common';
 @Component({
   selector: 'locale-switch',
   templateUrl: './locale-switch.component.html',
+  styleUrl: './locale-switch.component.scss',
   imports: [
     NgForOf
   ],
-  styleUrls: ['./locale-switch.component.scss']
 })
 export class LocaleSwitchComponent {
   constructor(public languageService: LanguageService) {}

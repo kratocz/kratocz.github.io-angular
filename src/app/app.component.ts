@@ -14,6 +14,7 @@ import {MenuItemComponent} from './menu-item/menu-item.component';
   standalone: true,
   imports: [CommonModule, TranslateModule, RouterLink, LocaleSwitchComponent, RouterOutlet, MenuItemComponent],
   templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   public static defaultPageTitle = 'Ing. Petr Kratochvíl';

@@ -32,7 +32,7 @@ $header-height: 60px;
   }
 }
 
-.menu {
+nav {
   position: fixed;
   top: $header-height;
   bottom: 0;
@@ -49,11 +49,11 @@ $header-height: 60px;
   font-size: 28px;
 }
 
-.menu.expanded {
+nav.expanded {
   width: 100%;
 }
 
-.main-content {
+main {
   margin-left: 200px;
   margin-top: $header-height;
 }
