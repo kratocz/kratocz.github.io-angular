@@ -1,5 +1,5 @@
 <div class="menu-item">
-  <a class="menu-item-link" [routerLink]="['/', translate.currentLang, routerLink]">
+  <a class="menu-item-link" [routerLink]="routerLink === '' ? translate.currentLang : [translate.currentLang, routerLink]">
     <div class="menu-item-button">
       <span>{{ title ?? translate.instant('page.' + routerLink + '.linkTitle') }}</span>
     </div>
