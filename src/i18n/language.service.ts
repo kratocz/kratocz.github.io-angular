@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import {isPlatformServer} from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class LanguageService {
 
   constructor(
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   get userLanguage(): string {
@@ -39,7 +41,7 @@ export class LanguageService {
     console.log('Switching language to:', lang);
     if (LanguageService.supportedLangs.includes(lang)) {
       this.translate.use(lang);
-      if (localStorage) {
+      if (!isPlatformServer(this.platformId) && localStorage) {
         localStorage.setItem(LanguageService.storageKey, lang);
       }
       const currentUrl = this.router.url.replace(/^\/(cs|en)/, '');
