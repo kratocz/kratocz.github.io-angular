@@ -56,9 +56,11 @@ export class AppComponent implements OnInit {
         return route.snapshot;
       })
     ).subscribe(activatedRoute => {
+      console.log({activatedRoute}, activatedRoute.url.map(urlSegment => urlSegment.path));
       const lang = activatedRoute.params['lang'];
       languageService.switchLanguage(lang);
       const pageId = activatedRoute.routeConfig?.path as string;
+      console.log({currentLang: translate.currentLang, key: `page.${pageId}.title`, translation: translate.instant(`page.${pageId}.title`) });
       this.pageTitle = pageId ? translate.instant(`page.${pageId}.title`) : undefined;
       this.currentLang = translate.currentLang ?? LanguageService.defaultLang;
     });
@@ -77,7 +79,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (!isPlatformServer(this.platformId)) {
       const userLang = this.languageService.userLanguage;
-      this.router.navigate([`/${userLang}`]);
+      this.languageService.switchLanguage('en');
+      //this.router.navigate([`/${userLang}`]);
     }
   }
 

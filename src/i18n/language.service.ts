@@ -45,7 +45,7 @@ export class LanguageService {
         localStorage.setItem(LanguageService.storageKey, lang);
       }
       const currentUrl = this.router.url.replace(/^\/(cs|en)/, '');
-      this.router.navigate([`/${lang}${currentUrl}`]);
+      //this.router.navigate([`/${lang}${currentUrl}`]);
     }
   }
 }

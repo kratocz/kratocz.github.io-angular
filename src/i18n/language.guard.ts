@@ -12,7 +12,7 @@ export class LanguageGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const lang = route.params['lang'];
     if (!this.allowedLanguages.includes(lang)) {
-      this.router.navigate(['/en']);
+      //this.router.navigate(['/en']);
       return false;
     }
     return true;

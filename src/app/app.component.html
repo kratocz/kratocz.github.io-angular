@@ -8,9 +8,9 @@
 </div>
 <main class="main-content">
   <router-outlet></router-outlet>
-  <h1 id="page-title">{{ pageTitle }}</h1>
+  <h1 id="page-title">PAGE TITLE: {{ pageTitle }}</h1>
 </main>
-<nav [ngSwitch]="translate.currentLang">
+<nav [ngSwitch]="translate.currentLang" style="display: block;">
   <ul *ngSwitchCase="'cs'">
     <app-menu-item routerLink="" title="Úvod" :expanded="isLandingPage"></app-menu-item>
     <app-menu-item routerLink="public-it-projects" title="Veřejné projekty" :expanded="isLandingPage">← YouTube, GitLab</app-menu-item>
