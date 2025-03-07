@@ -7,6 +7,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as yaml from 'js-yaml';
+import {PageTitleStrategyService} from './services/page-title-strategy.service';
 
 // Function for YAML loader (for client-side)
 export class TranslateYamlLoader implements TranslateLoader {
@@ -36,6 +37,10 @@ export const appConfig: ApplicationConfig = {
     TranslateService,
     TranslateStore,
     provideHttpClient(),
+    {
+      provide: TitleStrategy,
+      useClass: PageTitleStrategyService
+    },
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

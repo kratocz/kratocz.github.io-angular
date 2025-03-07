@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "serve:static": "python3 -m http.server -d dist/kratocz.github.io-angular/browser 4201",
     "test": "ng test",
     "serve:ssr:kratocz.github.io-angular": "node dist/kratocz.github.io-angular/server/server.mjs"
   },

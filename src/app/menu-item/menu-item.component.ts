@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
+import {LanguageService} from '../../i18n/language.service';
 
 @Component({
   selector: 'app-menu-item',
@@ -16,5 +17,6 @@ export class MenuItemComponent {
 
   constructor(
     public translate: TranslateService,
+    public languageService: LanguageService,
   ) { }
 }

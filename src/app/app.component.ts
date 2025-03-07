@@ -1,12 +1,10 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {CommonModule, isPlatformServer} from '@angular/common';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {TranslateService, TranslateModule} from '@ngx-translate/core';
-import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet, Routes} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {LanguageService} from '../i18n/language.service';
-import {filter, map} from 'rxjs';
+import {filter, map, Subscription} from 'rxjs';
 import {LocaleSwitchComponent} from './locale-switch/locale-switch.component';
-import {routes} from './app.routes';
-import {Title} from '@angular/platform-browser';
 import {MenuItemComponent} from './menu-item/menu-item.component';
 
 @Component({
@@ -16,73 +14,42 @@ import {MenuItemComponent} from './menu-item/menu-item.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  public static defaultPageTitle = 'Ing. Petr Kratochvíl';
-  private _pageTitle?: string;
+export class AppComponent {
+  pageTitle?: string;
   currentLang?: string;
+  private langChangeSubscription?: Subscription;
 
-  get pageTitle(): string | undefined {
-    return this._pageTitle;
-  }
-
-  set pageTitle(title: string | undefined) {
-    this._pageTitle = title;
-    let pageTitle = AppComponent.defaultPageTitle;
-    if (title) {
-      pageTitle = `${title.replace('!', '')} - ${AppComponent.defaultPageTitle}`;
+  private getRouteTitle(route: ActivatedRoute): string | undefined {
+    let child = route.firstChild;
+    while (child) {
+      if (child.snapshot.routeConfig?.title) {
+        return child.snapshot.routeConfig.title.toString();
+      }
+      child = child.firstChild;
     }
-    console.log('Setting page title:', pageTitle);
-    this.titleService.setTitle(pageTitle);
+    return route.snapshot.routeConfig?.title?.toString();
   }
 
   constructor(
     public translate: TranslateService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
+    public router: Router,
+    public activatedRoute: ActivatedRoute,
     private languageService: LanguageService,
-    private titleService: Title,
-    @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    console.log('Initializing TranslateService');
-    translate.setDefaultLang(LanguageService.defaultLang);
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      map(() => {
-        let route = this.activatedRoute;
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route.snapshot;
+      map((event) => {
+        return event.url;
       })
-    ).subscribe(activatedRoute => {
-      console.log({activatedRoute}, activatedRoute.url.map(urlSegment => urlSegment.path));
-      const lang = activatedRoute.params['lang'];
-      languageService.switchLanguage(lang);
-      const pageId = activatedRoute.routeConfig?.path as string;
-      console.log({currentLang: translate.currentLang, key: `page.${pageId}.title`, translation: translate.instant(`page.${pageId}.title`) });
-      this.pageTitle = pageId ? translate.instant(`page.${pageId}.title`) : undefined;
-      this.currentLang = translate.currentLang ?? LanguageService.defaultLang;
+    ).subscribe(url => {
+      console.log('Navigated to:', url);
+      this.languageService.switchLanguage(this.languageService.getDetectedLanguage(url), url);
+      this.pageTitle = this.getRouteTitle(this.activatedRoute);
     });
 
-    if (isPlatformServer(this.platformId)) {
-      const lang = 'en';
-      console.log('Server platform detected, setting language to:', lang);
-      translate.use(lang);
-    } else {
-      const lang = this.languageService.userLanguage;
-      console.log('Client platform detected, setting language to:', lang);
-      this.languageService.switchLanguage(lang);
-    }
+    translate.onLangChange.subscribe(event=>{
+      //console.log('Language changed to:', event.lang);
+      this.currentLang = event.lang;
+    });
   }
-
-  ngOnInit() {
-    if (!isPlatformServer(this.platformId)) {
-      const userLang = this.languageService.userLanguage;
-      this.languageService.switchLanguage('en');
-      //this.router.navigate([`/${userLang}`]);
-    }
-  }
-
-  protected readonly JSON = JSON;
 }
