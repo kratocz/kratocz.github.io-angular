@@ -1,14 +1,14 @@
 <div class="header">
   <div class="name">
-    <a [routerLink]="'/'">Petr Kratochvíl</a>
+    <a [routerLink]="'/' + currentLang">Petr Kratochvíl</a>
   </div>
   <div class="locale-switch">
     <locale-switch/>
   </div>
 </div>
 <main class="main-content">
+  <h1 id="page-title">{{ pageTitle }}</h1>
   <router-outlet></router-outlet>
-  <h1 id="page-title">PAGE TITLE: {{ pageTitle }}</h1>
 </main>
 <nav [ngSwitch]="currentLang" style="display: block;">
   <ul *ngSwitchCase="'cs'">

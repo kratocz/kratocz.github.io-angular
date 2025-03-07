@@ -1,3 +1,8 @@
-<div *ngFor="let langCode of LanguageService.supportedLangs">
-  <a [routerLink]="languageService.changeLanguageInUrl(langCode, router.url)">{{ langCode }}</a>
+<div class="selector" *ngFor="let langCode of LanguageService.supportedLangs">
+  <a *ngIf="langCode != translate.currentLang" [routerLink]="languageService.changeLanguageInUrl(langCode, router.url)">
+    <ng-container [ngSwitch]="translate.currentLang">
+    <img class="flag" *ngSwitchCase="'cs'" alt="Česky" ngSrc="/assets/i18n/cs.svg" width="16" height="16">
+    <img class="flag" *ngSwitchCase="'en'" alt="English" ngSrc="/assets/i18n/us.svg" width="16" height="16">
+    </ng-container>
+  </a>
 </div>
